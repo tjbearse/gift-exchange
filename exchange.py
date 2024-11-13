@@ -68,12 +68,15 @@ def main():
     # Print solution.
     if status == pywraplp.Solver.OPTIMAL or status == pywraplp.Solver.FEASIBLE:
         print(f"Total cost = {solver.Objective().Value()}\n")
+        nextExchangeConfig = {}
         for i in range(num_workers):
             for j in range(num_tasks):
                 # Test if x[i,j] is 1 (with tolerance for floating point arithmetic).
                 if x[i, j].solution_value() > 0.5:
+                    nextExchangeConfig[exchange.people[i]] = exchange.people[j]
                     print(f"{exchange.people[i]} -> {exchange.people[j]}" +
                           f" (cost: {costs[i][j]})")
+        print(nextExchangeConfig)
     else:
         print("No solution found.")
 
